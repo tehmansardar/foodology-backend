@@ -3,7 +3,7 @@ const Calender = require('../models/calenderModel');
 const calenderCtrl = {
 	getCalender: async (req, res) => {
 		try {
-			var start = new Date(2022, 01, 02);
+			const start = new Date().toLocaleDateString('en-CA');
 			const respo = await Calender.findOne({
 				$and: [{ user: req.user.id }, { created_At: { $gte: start } }],
 			});
