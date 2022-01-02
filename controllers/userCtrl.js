@@ -9,23 +9,23 @@ const userCtrl = {
 			const { username, email, password } = req.body;
 
 			if (!username || !email || !password)
-				return res.status(400).json({ msg: 'Please fill all fields' });
+				return res.status.json({ err: 'Please fill all fields' });
 
 			if (!validateEmail(email)) {
-				return res.status(400).json({ msg: 'Invalid email' });
+				return res.status.json({ err: 'Invalid email' });
 			}
 
 			const userName = await User.findOne({ username });
 			const userEmail = await User.findOne({ email });
 
 			if (userName)
-				return res.status(400).json({ msg: 'Username already exists' });
+				return res.json({ err: 'Username already exists' });
 			if (userEmail)
-				return res.status(400).json({ msg: 'Email already exists' });
+				return res.json({ err: 'Email already exists' });
 
 			return res.status(200).json({ msg: 'success' });
 		} catch (error) {
-			return res.status(500).json({ msg: error.message });
+			return res.status(500).json({ err: error.message });
 		}
 	},
 	signup: async (req, res) => {
@@ -101,17 +101,17 @@ const userCtrl = {
 			const { username, password } = req.body;
 
 			if (!username || !password)
-				return res.status(400).json({ msg: 'Please fill all fields' });
+				return res.json({ err: 'Please fill all fields' });
 
 			const user = await User.findOne({ username });
 
 			if (!user)
-				return res.status(422).json({ msg: 'Username does not exists' });
+				return res.json({ err: 'Username does not exists' });
 
 			const isMatch = await bcrypt.compare(password, user.password);
 
 			if (!isMatch)
-				return res.status(422).json({ msg: 'Passowrd is incorrect.' });
+				return res.json({ err: 'Passowrd is incorrect.' });
 
 			const token = jwt.sign({ id: user._id }, process.env.KEY);
 

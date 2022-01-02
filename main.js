@@ -16,6 +16,11 @@ connectDB();
 
 // routes
 app.use('/user', require('./routes/user'));
+
+app.use('/', require('./routes/meal'));
+
+app.use('/', require('./routes/calender'));
+
 app.use('/', (req, res, next) => {
 	res.send('/**/');
 });
